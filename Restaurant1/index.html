@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celami Cakes | Deserturi speciale</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f9f3f0;
+            color: #49271f;
+            font-family: Georgia, serif;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        header {
+            background: #fff;
+            padding: 14px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1002;
+            box-shadow: 0 2px 12px #49271f0d;
+        }
+
+        a {
+            text-decoration: none;
+            color: #49271f;
+
+        }
+
+        .logo {
+            font-family: "Brush Script MT", cursive;
+            font-size: 36px;
+            display: flex;
+            color: #49271f;
+            white-space: nowrap;
+            justify-content: center;
+            text-align: center;
+            margin: 0 auto;
+            /* Aceasta este linia care îl va împinge exact pe mijlocul headerului */
+        }
+
+        /* Meniu normal, afișat pe PC */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #49271f;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #c27d7d;
+        }
+
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #49271f;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            position: relative;
+            z-index: 1004;
+        }
+
+        .hamburger span,
+        .hamburger span::before,
+        .hamburger span::after {
+            display: block;
+            position: absolute;
+            width: 22px;
+            height: 2px;
+            background: #49271f;
+            border-radius: 2px;
+            transition: transform 0.25s, top 0.25s, background 0.25s;
+        }
+
+        .hamburger span::before,
+        .hamburger span::after {
+            content: "";
+            left: 0;
+        }
+
+        .hamburger span::before {
+            top: -7px;
+        }
+
+        .hamburger span::after {
+            top: 7px;
+        }
+
+        .hamburger.active span {
+            background: transparent;
+        }
+
+        .hamburger.active span::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            display: none;
+        }
+
+        /* HERO + CARUSEL */
+        .pag1 {
+            padding: 15px 4%;
+        }
+
+        .img1 {
+            height: 590px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #e1a2ac;
+        }
+
+        @keyframes slideInLeft2 {
+            0% {
+                transform: translateX(200px);
+                /* Începe decalat cu 100px spre stânga */
+                opacity: 1;
+                /* Este invizibil la început */
+            }
+
+            100% {
+                transform: translateX(2);
+                /* Ajunge la poziția lui normală */
+                opacity: 1;
+                /* Devine complet vizibil */
+            }
+        }
+
+        /* 2. Aplicăm animația pe textul sau elementul dorit */
+        .img1 {
+            animation: slideInLeft2 0.9s ease-out forwards;
+        }
+
+        .slider-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slider-img.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(42, 20, 16, .68), rgba(42, 20, 16, .18), transparent);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 7%;
+            transform: translateY(-50%);
+            max-width: 580px;
+            color: #fff;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(34px, 5vw, 61px);
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .hero-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 28px;
+            color: #fff4f0;
+        }
+
+        .But1 {
+            display: inline-block;
+            background: rgba(206, 136, 136, 0.574);
+            ;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+
+        .Bu1t:hover {
+            background: #a95f50;
+        }
+
+        .But {
+            display: inline-block;
+            background: #d78b7c;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+
+        .But:hover {
+            background: #a95f50;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border: none;
+            border-radius: 50%;
+            background: #ffffff80;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.3);
+        }
+
+        /* COLECȚIE */
+        .pag2 {
+            padding: 75px 7%;
+            text-align: center;
+        }
+
+
+
+        .titlu-sectiune1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(29px, 4vw, 43px);
+            margin-bottom: 15px;
+            background-color: #d38725b8;
+            border-radius: 10px;
+        }
+
+        .titlu-sectiune {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(29px, 4vw, 43px);
+            margin-bottom: 15px;
+        }
+
+        .descriere {
+            color: #80665f;
+            font-size: 15px;
+            line-height: 1.8;
+            max-width: 580px;
+            margin: 0 auto 38px;
+        }
+
+        @keyframes slideInLeft1 {
+            0% {
+                transform: translateX(-400px);
+                /* Începe decalat cu 100px spre stânga */
+                opacity: 2;
+                /* Este invizibil la început */
+            }
+
+            100% {
+                transform: translateX(1);
+                /* Ajunge la poziția lui normală */
+                opacity: 1;
+                /* Devine complet vizibil */
+            }
+        }
+
+        /* 2. Aplicăm animația pe textul sau elementul dorit */
+        .hero-content {
+            animation: slideInLeft1 1.5s ease-out forwards;
+        }
+
+        .categori {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+            text-align: left;
+        }
+
+        /* Aplicat direct pe structura ta */
+        .boxuri {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Aliniază imaginea și textul perfect pe centrul boxului */
+            border: solid 1px #49271f;
+            border-radius: 20% 40px;
+        }
+
+        .boxuri img {
+            width: 100%;
+            /* Ocupă toată lățimea disponibilă din box */
+            max-width: 250px;
+            /* Pune o limită maximă ca să nu devină uriașă pe ecrane mari */
+            height: 200px;
+            /* Setează o înălțime fixă ca toate boxurile tale să fie egale */
+            object-fit: contain;
+            /* PROP: Forțează tortul/prăjitura să se încadreze perfect fără să se deformeze sau să se taie */
+            display: block;
+            /* Elimină spațiile goale nedorite de sub imagine */
+            margin: 0 auto;
+            /* O centrează perfect pe orizontală */
+            transition: 1s;
+        }
+
+        .boxuri img:active {
+            position: fixed;
+            /* O scoate din box și o blochează pe ecran */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2.5);
+            /* O centrează pe ecran și o mărește de 3.5 ori */
+            width: auto;
+            height: auto;
+            max-width: 40vw;
+            /* Se asigură că nu iese din marginile ecranului pe lățime */
+            max-height: 90vh;
+            /* Se asigură că nu iese din marginile ecranului pe înălțime */
+            z-index: 9999;
+
+        }
+
+
+
+        .box-text {
+            padding: 20px;
+        }
+
+        .box-text h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 21px;
+            text-align: center;
+            margin-bottom: 9px;
+        }
+
+        .box-text p {
+            color: #80665f;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .vezi {
+            display: inline-block;
+            margin-top: 16px;
+            color: #502525;
+            padding: 4px 15px;
+            border-radius: 10px;
+            background-color: #f9918476;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        /* DESPRE NOI */
+        .despre {
+            padding: 70px 8%;
+            background: #f0dfda;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .despre img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .despre h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(30px, 4vw, 42px);
+            margin-bottom: 20px;
+        }
+
+        .despre p:not(.subtitlu) {
+            color: #74564e;
+            line-height: 1.9;
+            margin-bottom: 25px;
+        }
+
+        /* CONTACT + FOOTER */
+        .contact {
+            padding: 70px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .contact p:not(.subtitlu) {
+            color: #80665f;
+            margin: 18px auto 25px;
+
+            max-width: 600px;
+        }
+
+        footer {
+            background: #49271f;
+            color: #f9eae4;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 25px 15px;
+            font-size: 13px;
+
+        }
+
+        footer p {
+            background-color: #797675;
+            padding: 10px;
+            border-radius: 7px;
+        }
+
+        /* TABLETĂ */
+        @media (max-width: 900px) {
+            .categori {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .despre {
+                gap: 25px;
+                padding: 55px 5%;
+            }
+
+            .img1 {
+                height: 500px;
+            }
+
+            header {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
+
+        /* TELEFON: hamburger + panou glisant din stânga */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            header nav {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 280px;
+                max-width: 82vw;
+                height: 100vh;
+                height: 100dvh;
+                padding: 100px 28px 30px;
+                background: #fffaf7;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 28px;
+                box-shadow: 8px 0 30px #00000020;
+                z-index: 1003;
+                overflow-y: auto;
+                transform: translateX(-110%);
+                visibility: hidden;
+                transition: transform .3s ease, visibility .3s ease;
+            }
+
+            header nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            header nav a {
+                color: #49271f;
+                font-size: 17px;
+            }
+
+            .menu-overlay.open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: #00000055;
+                z-index: 1001;
+            }
+
+            .logo {
+                font-size: 30px;
+            }
+
+            .pag1 {
+                padding: 10px;
+            }
+
+            .img1 {
+                height: 520px;
+                border-radius: 12px;
+            }
+
+            .hero-overlay {
+                background: linear-gradient(90deg, rgba(42, 20, 16, .67), rgba(42, 20, 16, .25));
+            }
+
+            .hero-content {
+                left: 7%;
+                right: 7%;
+            }
+
+            .hero-content h1 {
+                font-size: 37px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .pag2 {
+                padding: 55px 5%;
+            }
+
+            .categori {
+                gap: 12px;
+            }
+
+            .boxuri img {
+                height: 155px;
+            }
+
+            .box-text {
+                padding: 13px;
+            }
+
+            .box-text h3 {
+                font-size: 17px;
+            }
+
+            .box-text p {
+                font-size: 12px;
+            }
+
+            .despre {
+                grid-template-columns: 1fr;
+                padding: 45px 6%;
+            }
+
+            .despre img {
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .logo {
+                font-size: 27px;
+            }
+        }
+
+        /* Adaugă această animație în fișierul CSS */
+        @keyframes pulse-zoom {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+                /* Cât de mult se mărește */
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Aplică animația pe butonul tău (poți păstra stilurile vechi și doar să adaugi linia cu animation) */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+
+            /* Aici se activează efectul continuu */
+            animation: pulse-zoom 2s infinite ease-in-out;
+        }
+
+        /* Dacă vrei să se oprească atunci când pui mouse-ul pe el: */
+        .whatsapp-float:hover {
+            animation: none;
+            background-color: #128c7e;
+            transform: scale(1.15);
+            box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo"> <a href="#acasa">Celami Cakes</a></div>
+
+        <nav id="menu" aria-label="Meniu principal">
+            <a href="#acasa">Acasă</a>
+            <a href="#colectie">Colecție</a>
+            <a href="#despre">Despre noi</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="hamburger" type="button" aria-label="Deschide meniul" aria-controls="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+        </button>
+    </header>
+
+    <div class="menu-overlay" aria-hidden="true"></div>
+
+    <!-- CARUSEL: imaginile se schimbă la fiecare 2 secunde -->
+    <section class="pag1" id="acasa">
+        <div class="img1">
+            <img class="slider-img active" src="img1.jpeg" alt="Deserturi Celami Cakes">
+            <img class="slider-img" src="img4.jpeg" alt="Tort elegant">
+            <img class="slider-img" src="img6.jpeg" alt="Prăjituri proaspete">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <h1>Bine ai venit la Celami Cakes!</h1>
+                <p>Deserturi speciale, pregătite cu grijă, pentru cele mai frumoase momente din viață.</p>
+                <a href="#colectie" class="But1">Descoperă colecția →</a>
+            </div>
+
+            <div class="slider-dots" aria-label="Alege imaginea">
+                <button class="dot active" type="button" aria-label="Imaginea 1"></button>
+                <button class="dot" type="button" aria-label="Imaginea 2"></button>
+                <button class="dot" type="button" aria-label="Imaginea 3"></button>
+            </div>
+        </div>
+    </section>
+    <!-- DESPRE NOI -->
+    <section class="despre" id="despre">
+        <img src="img2.jpeg" alt="Deserturi pregătite cu grijă">
+        <div>
+
+            <h2>Un strop de dulceață în fiecare zi</h2>
+            <p>
+                La Celami Cakes, fiecare desert este o ocazie de a aduce oamenii împreună.
+                Ne dorim ca fiecare tort și fiecare prăjitură să transforme momentele
+                obișnuite în amintiri speciale.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- COLECȚIE -->
+    <section class="pag2" id="colectie">
+
+        <h2 class="titlu-sectiune1">Colecția noastră</h2>
+        <p class="descriere">
+            Fiecare desert spune o poveste. Alege-ți preferatul și transformă orice moment într-o amintire dulce.
+        </p>
+
+        <div class="categori">
+            <article class="boxuri" id="tort">
+                <img src="imag1.png" alt="Torturi festive">
+                <div class="box-text">
+                    <h3>Torturi</h3>
+                    <a href="#contact" class="vezi">Descoperă →</a>
+                </div>
+            </article>
+
+            <article class="boxuri">
+                <img src="img9.png" alt="Prăjituri fine">
+                <div class="box-text">
+                    <h3>Prăjituri</h3>
+                    <a href="#contact" class="vezi">Descoperă →</a>
+                </div>
+            </article>
+
+            <article class="boxuri">
+                <img src="br1.png" alt="Cupcakes decorate">
+                <div class="box-text">
+                    <h3>Candybar</h3>
+
+                    <a href="#contact" class="vezi">Descoperă →</a>
+                </div>
+            </article>
+
+            <article class="boxuri">
+                <img src="fursecuri.jpeg" alt="Fursecuri de casă">
+                <div class="box-text">
+                    <h3>Prăjituri Fructe</h3>
+
+                    <a href="#contact" class="vezi">Descoperă →</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+
+        <h2 class="titlu-sectiune">Hai să alegem ceva dulce!</h2>
+        <p>
+            Pentru comenzi și detalii despre deserturi, contactează-ne și discutăm despre ceea ce îți dorești.
+        </p>
+        <!-- Înlocuiește acest buton cu un link de telefon sau Instagram când ai datele -->
+        <a href="#acasa" class="But">Înapoi sus ↑</a>
+    </section>
+
+    <footer>
+        <h2>Contact</h2>
+        <p>TELEFON: (+40)1234123321</p>
+        <p>LOCATIE 1: Strada Mihai Eminescu, nr.14, Medias(sub cupola,langa pia
+        <p>ADRESA EMAIL:12234@gmail,com</p>
+        <p1>© 2026 Celami Cakes. Toate drepturile rezervate.</p1>
+    </footer>
+
+    <script>
+        const butonFinish = document.getElementById(" tort"); if (butonFinish) {
+            butonFinish.addEventListener('click',
+                function () { window.location.href = "torturi.html"; });
+        } // CARUSEL const
+        imagini = document.querySelectorAll(".slider-img"); const puncte = document.querySelectorAll(".dot"); let
+            index = 0; let intervalCarusel; function afiseazaImagine(nouIndex) {
+                imagini[index].classList.remove("active"); puncte[index].classList.remove("active"); index = nouIndex;
+                imagini[index].classList.add("active"); puncte[index].classList.add("active");
+            } function
+            pornesteCaruselul() {
+            clearInterval(intervalCarusel); intervalCarusel = setInterval(() => {
+                afiseazaImagine((index + 1) % imagini.length);
+            }, 2000);
+        }
+
+        puncte.forEach((punct, i) => {
+            punct.addEventListener("click", () => {
+                afiseazaImagine(i);
+                pornesteCaruselul();
+            });
+        });
+
+        if (imagini.length && puncte.length === imagini.length) {
+            pornesteCaruselul();
+        }
+
+        // MENIU HAMBURGER: mobil
+        const butonHamburger = document.querySelector(".hamburger");
+        const meniu = document.querySelector("#menu");
+        const overlayMeniu = document.querySelector(".menu-overlay");
+
+        function inchideMeniul() {
+            meniu.classList.remove("open");
+            overlayMeniu.classList.remove("open");
+            butonHamburger.classList.remove("active");
+            butonHamburger.setAttribute("aria-expanded", "false");
+            butonHamburger.setAttribute("aria-label", "Deschide meniul");
+            document.body.classList.remove("menu-open");
+        }
+
+        function comutaMeniul() {
+            const esteDeschis = meniu.classList.toggle("open");
+
+            overlayMeniu.classList.toggle("open", esteDeschis);
+            butonHamburger.classList.toggle("active", esteDeschis);
+            butonHamburger.setAttribute("aria-expanded", String(esteDeschis));
+            butonHamburger.setAttribute(
+                "aria-label",
+                esteDeschis ? "Închide meniul" : "Deschide meniul"
+            );
+            document.body.classList.toggle("menu-open", esteDeschis);
+        }
+
+        butonHamburger.addEventListener("click", comutaMeniul);
+        overlayMeniu.addEventListener("click", inchideMeniul);
+
+        meniu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", inchideMeniul);
+        });
+
+        // Dacă se trece de la mobil la PC, meniul revine la aspectul normal.
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                inchideMeniul();
+            }
+        });
+
+        // Închide meniul și cu tasta Escape.
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                inchideMeniul();
+            }
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+    </script>
+    <!-- Buton Plutitor WhatsApp -->
+    <a href="https://wa.me/40774527728?text=Buna%20ziua!%20Doresc%20sa%20plasez%20o%20comanda." class="whatsapp-float"
+        target="_blank" rel="noopener noreferrer" aria-label="Contactează-ne pe WhatsApp">
+        <svg viewBox="0 0 32 32" class="whatsapp-icon">
+            <path fill="currentColor"
+                d="M16 2a13 13 0 0 0-11 20l-2 7 7-2a13 13 0 1 0 6-25zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A11 11 0 1 1 16 26zm6-8c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.1-.8 1-.9 1.2-.3.2-.6 0a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6s.3-.4.4-.6a2 2 0 0 0 .2-.5.4.4 0 0 0 0-.4c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.8 6.4 6.4 0 0 0 1.3 3.4 14.6 14.6 0 0 0 5.6 4.9c2.5 1 3 1 4.1.8a3.5 3.5 0 0 0 2.3-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.2-.4-.3-.7-.5z" />
+        </svg>
+    </a>
+</body>
+
+</html>

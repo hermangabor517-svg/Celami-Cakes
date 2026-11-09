@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celami Cakes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f9f3f0;
+            color: #49271f;
+            font-family: Georgia, serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        header {
+            background: #fff;
+            padding: 14px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1002;
+            box-shadow: 0 2px 12px rgba(73, 39, 31, 0.08);
+        }
+
+        .logo {
+            font-family: "Brush Script MT", cursive, Georgia, serif;
+            font-size: 36px;
+            color: #49271f;
+            white-space: nowrap;
+        }
+
+        /* Meniu desktop */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #49271f;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #c27d7d;
+        }
+
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #49271f;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            position: relative;
+            z-index: 1004;
+        }
+
+        .hamburger span,
+        .hamburger span::before,
+        .hamburger span::after {
+            display: block;
+            position: absolute;
+            width: 22px;
+            height: 2px;
+            background: #49271f;
+            border-radius: 2px;
+            transition: transform 0.25s, top 0.25s, background 0.25s;
+        }
+
+        .hamburger span::before,
+        .hamburger span::after {
+            content: "";
+            left: 0;
+        }
+
+        .hamburger span::before {
+            top: -7px;
+        }
+
+        .hamburger span::after {
+            top: 7px;
+        }
+
+        .hamburger.active span {
+            background: transparent;
+        }
+
+        .hamburger.active span::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            display: none;
+        }
+
+        /* TITLURI SI SECTIUNI */
+        .titlu {
+            font-size: 22px;
+            background-color: #c27d7d;
+            color: #fff;
+            padding: 8px 64px;
+            width: fit-content;
+            margin: 24px auto 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .tn {
+            font-size: 14px;
+            margin: 15px auto;
+            width: fit-content;
+            max-width: 90%;
+            border-radius: 8px 20px 8px 20px;
+            padding: 8px 16px;
+            background-color: #f7e6b3;
+            text-align: center;
+        }
+
+        .tn h2 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        /* CARUSEL & CONTENT */
+        .carusel-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .carusel {
+            position: relative;
+            width: 100%;
+            margin: 20px 0 40px;
+        }
+
+        .categori {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            padding: 10px 5px 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .categori::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .categori::-webkit-scrollbar-thumb {
+            background: #c27d7d;
+            border-radius: 10px;
+        }
+
+        .boxuri {
+            background-color: #fff;
+            border: 1px solid #eee;
+            padding: 16px;
+            flex: 0 0 260px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .boxuri:hover {
+            transform: translateY(-4deg);
+        }
+
+        .boxuri img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .box-text h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: #49271f;
+        }
+
+        .box-text p {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #666;
+            font-family: sans-serif;
+        }
+
+        /* BUTOANE CARUSEL */
+        .carusel-btn {
+            display: none;
+        }
+
+        /* MEDIA QUERIES (DESKTOP & TELEFON) */
+        @media (min-width: 769px) {
+            .carusel-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 40px;
+                height: 40px;
+                background-color: #49271f;
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                z-index: 10;
+                font-size: 18px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.2s;
+            }
+
+            .carusel-btn:hover {
+                background-color: #c27d7d;
+            }
+
+            .prev-btn {
+                left: -15px;
+            }
+
+            .next-btn {
+                right: -15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            header nav {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 260px;
+                max-width: 80vw;
+                height: 100vh;
+                height: 100dvh;
+                padding: 90px 24px 30px;
+                background: #fffaf7;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+                box-shadow: 8px 0 30px rgba(0, 0, 0, 0.15);
+                z-index: 1003;
+                overflow-y: auto;
+                transform: translateX(-110%);
+                visibility: hidden;
+                transition: transform .3s ease, visibility .3s ease;
+            }
+
+            header nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            header nav a {
+                font-size: 18px;
+            }
+
+            .menu-overlay.open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 1001;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .boxuri {
+                flex: 0 0 220px;
+            }
+        }
+
+        .buton {
+            display: flex;
+            padding: 6px 28px;
+            border-radius: 10px;
+            margin-top: 8px;
+            border: none;
+            background-color: #dd8e2e;
+            box-shadow: inset 0px 0px 8px 0px #f1fe03;
+            transition: transform 0.2s ease;
+            font-family: 'Times New Roman', Times, serif;
+            color: #ffffff;
+            cursor: pointer;
+
+        }
+
+        .buton:hover {
+            transform: scale(0.8);
+        }
+
+        /* Fereastra pop-up generală */
+        .ferPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            align-items: center;
+            text-align: center;
+            max-width: 650px;
+            padding: 30px;
+            border: none;
+            border-radius: 10% 0% 10% 0%;
+            
+            background: #fff;
+            
+        }
+
+        .ferPopup::backdrop {
+            background: #000000ba;
+        }
+
+        /* Containerul care ține poza și textul pe 2 coloane (Flexbox) */
+        
+
+        /* Stilul pentru imagine */
+        .ferPopup .imag {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Zona de text */
+        .text {
+            flex: 1;
+        }
+
+        .text h2 {
+            background-color: #e9e6e6;
+            box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding:  2px;
+            font-size: 22px;
+            color: #49271f;
+        }
+
+        .text p {
+            margin: 0;
+            font-family: sans-serif;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Butonul de închidere */
+        .ferPopup button {
+            background-color: #49271f;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Celami Cakes</div>
+
+        <nav id="menu" aria-label="Meniu principal">
+            <a href="#acasa">Acasă</a>
+            <a href="#colectie">Colecție</a>
+            <a href="#despre">Despre noi</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="hamburger" type="button" aria-label="Deschide meniul" aria-controls="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+        </button>
+    </header>
+    <div class="menu-overlay" aria-hidden="true"></div>
+
+    <main class="carusel-wrapper">
+        <h2 class="titlu">TORTURI</h2>
+
+        <div class="tn">
+            <h2>Torturi de nuntă</h2>
+        </div>
+
+        <section class="carusel">
+            <button class="carusel-btn prev-btn" id="prevBtn" aria-label="Anterior">&lt;</button>
+            <div class="categori" id="carouselTrack">
+                <article class="boxuri">
+                    <img src="img1.jpeg" alt="Torturi festive">
+                    <div class="box-text">
+                        <h3>Torturi</h3>
+                        <p>Torturi speciale pentru aniversări și momente importante.</p>
+                        <button class="buton" onclick="document.getElementById('fereastaPopup1').showModal()"
+                            type="button">Vezi detali</button>
+                    </div>
+                </article>
+                <dialog id="fereastaPopup1" class="ferPopup">
+                    <img class="imag" src="img5.jpeg" alt="">
+                    <div class="text">
+                        <h2>Tort de Ciocolata</h2>
+                        <p>Acest ort este facut </p>
+                    </div>
+                    <button class="buto" type="button"
+                        onclick="document.getElementById('fereastaPopup1').close()">Inchide</button>
+                </dialog>
+
+                <article class="boxuri">
+                    <img src="prajituri.jpeg" alt="Prăjituri fine">
+                    <div class="box-text">
+                        <h3>Prăjituri</h3>
+                        <p>Deserturi fine, perfecte pentru orice poftă de dulce.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="cupcakes.jpeg" alt="Cupcakes decorate">
+                    <div class="box-text">
+                        <h3>Cupcakes</h3>
+                        <p>Mici delicii decorate cu atenție și multă imaginație.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="fursecuri.jpeg" alt="Fursecuri de casă">
+                    <div class="box-text">
+                        <h3>Fursecuri</h3>
+                        <p>Gustul delicat al deserturilor pregătite cu drag.</p>
+                    </div>
+                </article>
+            </div>
+            <button class="carusel-btn next-btn" id="nextBtn" aria-label="Următor">&gt;</button>
+        </section>
+    </main>
+    <main class="carusel-wrapper">
+
+
+        <div class="tn">
+            <h2>Torturi de botez</h2>
+        </div>
+
+        <section class="carusel">
+            <button class="carusel-btn prev-btn" id="prevBtn" aria-label="Anterior">&lt;</button>
+            <div class="categori" id="carouselTrack">
+                <article class="boxuri">
+                    <img src="img1.jpeg" alt="Torturi festive">
+                    <div class="box-text">
+                        <h3>Torturi</h3>
+                        <p>Torturi speciale pentru aniversări și momente importante.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="prajituri.jpeg" alt="Prăjituri fine">
+                    <div class="box-text">
+                        <h3>Prăjituri</h3>
+                        <p>Deserturi fine, perfecte pentru orice poftă de dulce.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="cupcakes.jpeg" alt="Cupcakes decorate">
+                    <div class="box-text">
+                        <h3>Cupcakes</h3>
+                        <p>Mici delicii decorate cu atenție și multă imaginație.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="fursecuri.jpeg" alt="Fursecuri de casă">
+                    <div class="box-text">
+                        <h3>Fursecuri</h3>
+                        <p>Gustul delicat al deserturilor pregătite cu drag.</p>
+                    </div>
+                </article>
+            </div>
+            <button class="carusel-btn next-btn" id="nextBtn" aria-label="Următor">&gt;</button>
+        </section>
+    </main>
+    <main class="carusel-wrapper">
+
+
+        <div class="tn">
+            <h2>Torturi de aniversare</h2>
+        </div>
+
+        <section class="carusel">
+            <button class="carusel-btn prev-btn" id="prevBtn" aria-label="Anterior">&lt;</button>
+            <div class="categori" id="carouselTrack">
+                <article class="boxuri">
+                    <img src="img1.jpeg" alt="Torturi festive">
+                    <div class="box-text">
+                        <h3>Torturi</h3>
+                        <p>Torturi speciale pentru aniversări și momente importante.</p>
+                        <button class="buton" onclick="document.getElementById('fereastaPopup').showModal()"
+                            type="button">Vezi detali</button>
+                    </div>
+                </article>
+                <dialog id="fereastaPopup" class="ferPopup">
+                    <h2>dced</h2>
+                    <p>dcecdc</p>
+                    <button type="button" onclick="document.getElementById('fereastaPopup').close()">Inchide</button>
+                </dialog>
+
+                <article class="boxuri">
+                    <img src="prajituri.jpeg" alt="Prăjituri fine">
+                    <div class="box-text">
+                        <h3>Prăjituri</h3>
+                        <p>Deserturi fine, perfecte pentru orice poftă de dulce.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="cupcakes.jpeg" alt="Cupcakes decorate">
+                    <div class="box-text">
+                        <h3>Cupcakes</h3>
+                        <p>Mici delicii decorate cu atenție și multă imaginație.</p>
+                    </div>
+                </article>
+
+                <article class="boxuri">
+                    <img src="fursecuri.jpeg" alt="Fursecuri de casă">
+                    <div class="box-text">
+                        <h3>Fursecuri</h3>
+                        <p>Gustul delicat al deserturilor pregătite cu drag.</p>
+                    </div>
+                </article>
+            </div>
+            <button class="carusel-btn next-btn" id="nextBtn" aria-label="Următor">&gt;</button>
+        </section>
+    </main>
+
+    <script>
+        // MENIU HAMBURGER
+        const butonHamburger = document.querySelector(".hamburger");
+        const meniu = document.querySelector("#menu");
+        const overlayMeniu = document.querySelector(".menu-overlay");
+
+        function inchideMeniul() {
+            meniu.classList.remove("open");
+            overlayMeniu.classList.remove("open");
+            butonHamburger.classList.remove("active");
+            butonHamburger.setAttribute("aria-expanded", "false");
+            butonHamburger.setAttribute("aria-label", "Deschide meniul");
+            document.body.classList.remove("menu-open");
+        }
+
+        function comutaMeniul() {
+            const esteDeschis = meniu.classList.toggle("open");
+
+            overlayMeniu.classList.toggle("open", esteDeschis);
+            butonHamburger.classList.toggle("active", esteDeschis);
+            butonHamburger.setAttribute("aria-expanded", String(esteDeschis));
+            butonHamburger.setAttribute(
+                "aria-label",
+                esteDeschis ? "Închide meniul" : "Deschide meniul"
+            );
+            document.body.classList.toggle("menu-open", esteDeschis);
+        }
+
+        butonHamburger.addEventListener("click", comutaMeniul);
+        overlayMeniu.addEventListener("click", inchideMeniul);
+
+        meniu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", inchideMeniul);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                inchideMeniul();
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                inchideMeniul();
+            }
+        });
+
+        // NOU: Funcționalitate derulare carusel din butoane pe Desktop
+        const carouselTrack = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (prevBtn && nextBtn && carouselTrack) {
+            nextBtn.addEventListener('click', () => {
+                carouselTrack.scrollBy({ left: 280, behavior: 'smooth' });
+            });
+            prevBtn.addEventListener('click', () => {
+                carouselTrack.scrollBy({ left: -280, behavior: 'smooth' });
+            });
+        }
+    </script>
+</body>
+
+</html>
