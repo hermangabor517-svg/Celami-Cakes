@@ -289,11 +289,12 @@
 
 
         .titlu-sectiune1 {
-            font-family: "Playfair Display", serif;
+            font-family: "Playfair Display", serif, bold;
             font-size: clamp(29px, 4vw, 43px);
             margin-bottom: 15px;
             background-color: #d38725b8;
-            border-radius: 10px;
+            border-radius: 3px;
+
         }
 
         .titlu-sectiune {
@@ -448,7 +449,7 @@
         }
 
         .contact p:not(.subtitlu) {
-            color: #80665f;
+            color: #78655f;
             margin: 18px auto 25px;
 
             max-width: 600px;
@@ -457,7 +458,6 @@
         footer {
             background: #49271f;
             color: #f9eae4;
-            text-align: center;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -466,11 +466,16 @@
 
         }
 
-        footer p {
-            background-color: #797675;
+        .dt-operator {
+            background-color: #8f8f8f5f;
             padding: 10px;
-            border-radius: 7px;
+            border-radius: 10px;
         }
+        .t-operator h2{
+            padding: 10px;
+        }
+
+
 
         /* TABLETĂ */
         @media (max-width: 900px) {
@@ -729,35 +734,28 @@
                 <img src="imag1.png" alt="Torturi festive">
                 <div class="box-text">
                     <h3>Torturi</h3>
-                    <a href="#contact" class="vezi">Descoperă →</a>
+                    <a href="torturi-categorii.html" class="vezi">Descoperă →</a>
                 </div>
             </article>
 
-            <article class="boxuri">
+            <article class="boxuri" id="prajituri">
                 <img src="img9.png" alt="Prăjituri fine">
                 <div class="box-text">
                     <h3>Prăjituri</h3>
-                    <a href="#contact" class="vezi">Descoperă →</a>
+                    <a href="prajituri.html" class="vezi">Descoperă →</a>
                 </div>
             </article>
 
-            <article class="boxuri">
+            <article class="boxuri" id="candybar">
                 <img src="br1.png" alt="Cupcakes decorate">
                 <div class="box-text">
                     <h3>Candybar</h3>
 
-                    <a href="#contact" class="vezi">Descoperă →</a>
+                    <a href="candybar.html" class="vezi">Descoperă →</a>
                 </div>
             </article>
 
-            <article class="boxuri">
-                <img src="fursecuri.jpeg" alt="Fursecuri de casă">
-                <div class="box-text">
-                    <h3>Prăjituri Fructe</h3>
 
-                    <a href="#contact" class="vezi">Descoperă →</a>
-                </div>
-            </article>
         </div>
     </section>
 
@@ -771,15 +769,24 @@
             Pentru comenzi și detalii despre deserturi, contactează-ne și discutăm despre ceea ce îți dorești.
         </p>
         <!-- Înlocuiește acest buton cu un link de telefon sau Instagram când ai datele -->
-        <a href="#acasa" class="But">Înapoi sus ↑</a>
+
     </section>
 
     <footer>
         <h2>Contact</h2>
-        <p>TELEFON: (+40)1234123321</p>
-        <p>LOCATIE 1: Strada Mihai Eminescu, nr.14, Medias(sub cupola,langa pia
-        <p>ADRESA EMAIL:12234@gmail,com</p>
+        <p>📞 TELEFON: (+40)1234123321</p>
+        <p>📍 LOCATIE 1: Strada Mihai Eminescu, nr.14, Medias(sub cupola,langa pia
+        <p>📧 ADRESA EMAIL:12234@gmail,com</p>
         <p1>© 2026 Celami Cakes. Toate drepturile rezervate.</p1>
+        <div class="t-operator">
+            <h2>Date Operator</h2>
+            <div class="dt-operator">
+                <p>Denumire firmă:</p>
+                <p>CUI:</p>
+                <p>Nr. Reg. Com.:</p>
+            </div>
+        </div>
+
     </footer>
 
     <script>
@@ -787,9 +794,24 @@
         const butonFinish = document.getElementById("tort");
         if (butonFinish) {
             butonFinish.addEventListener('click', function () {
-                window.location.href = "torturi.html";
+                window.location.href = "torturi-categorii.html";
             });
         }
+        const butonFinish1 = document.getElementById('prajituri');
+        if (butonFinish1) {
+            butonFinish1.addEventListener('click', function () {
+                window.location.href = "prajituri.html"
+            });
+        }
+        const butonFinish2 = document.getElementById('candybar');
+        if (butonFinish2) {
+            butonFinish2.addEventListener('click', function () {
+                window.location.href = "candybar.html"
+            });
+        }
+
+
+
 
         // 2. CARUSELUL
         const imagini = document.querySelectorAll(".slider-img");

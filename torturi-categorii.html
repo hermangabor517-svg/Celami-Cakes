@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celami Cakes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f9f3f0;
+            color: #49271f;
+            font-family: Georgia, serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        header {
+            background: #fff;
+            padding: 14px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1002;
+            box-shadow: 0 2px 12px rgba(73, 39, 31, 0.08);
+        }
+
+        .logo {
+            font-family: "Brush Script MT", cursive, Georgia, serif;
+            font-size: 36px;
+            color: #49271f;
+            white-space: nowrap;
+        }
+
+        /* Meniu desktop */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #49271f;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #c27d7d;
+        }
+
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #49271f;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            position: relative;
+            z-index: 1004;
+        }
+
+        .hamburger span,
+        .hamburger span::before,
+        .hamburger span::after {
+            display: block;
+            position: absolute;
+            width: 22px;
+            height: 2px;
+            background: #49271f;
+            border-radius: 2px;
+            transition: transform 0.25s, top 0.25s, background 0.25s;
+        }
+
+        .hamburger span::before,
+        .hamburger span::after {
+            content: "";
+            left: 0;
+        }
+
+        .hamburger span::before {
+            top: -7px;
+        }
+
+        .hamburger span::after {
+            top: 7px;
+        }
+
+        .hamburger.active span {
+            background: transparent;
+        }
+
+        .hamburger.active span::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            display: none;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            header nav {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 260px;
+                max-width: 80vw;
+                height: 100vh;
+                height: 100dvh;
+                padding: 90px 24px 30px;
+                background: #fffaf7;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+                box-shadow: 8px 0 30px rgba(0, 0, 0, 0.15);
+                z-index: 1003;
+                overflow-y: auto;
+                transform: translateX(-110%);
+                visibility: hidden;
+                transition: transform .3s ease, visibility .3s ease;
+            }
+
+            header nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            header nav a {
+                font-size: 18px;
+            }
+
+            .menu-overlay.open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 1001;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .boxuri {
+                flex: 0 0 220px;
+            }
+        }
+
+        /* SECȚIUNEA DE SELECȚIE TORTURI */
+        .pag1 {
+            min-height: calc(100vh - 80px);
+            /* Ocupă ecranul armonios sub header */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+
+
+        .categorii-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .card-categorie {
+            background: #fff;
+            border: 1px solid rgba(73, 39, 31, 0.15);
+            border-radius: 16px;
+            padding: 40px 30px;
+            flex: 1 1 320px;
+            /* Se adaptează automat pe mobil și desktop */
+            max-width: 400px;
+            text-decoration: none;
+            color: #49271f;
+            box-shadow: 0 8px 25px rgba(73, 39, 31, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card-categorie:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 35px rgba(73, 39, 31, 0.12);
+            border-color: #c27d7d;
+        }
+
+        .card-categorie h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #49271f;
+        }
+
+        .card-categorie p {
+            font-size: 15px;
+            color: #7a5248;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .btn-exploreaza {
+            display: inline-block;
+            padding: 10px 24px;
+            background: #49271f;
+            color: #fff;
+            border-radius: 25px;
+            font-size: 14px;
+            font-family: sans-serif;
+            letter-spacing: 0.5px;
+            transition: background 0.25s ease;
+        }
+
+        .card-categorie:hover .btn-exploreaza {
+            background: #c27d7d;
+        }
+
+        /* Ajustare pentru telefoane mici */
+        @media (max-width: 600px) {
+            .pag1-titlu {
+                font-size: 26px;
+            }
+
+            .card-categorie {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Celami Cakes</div>
+
+        <nav id="menu" aria-label="Meniu principal">
+            <a href="#acasa">Acasă</a>
+            <a href="#colectie">Colecție</a>
+            <a href="#despre">Despre noi</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="hamburger" type="button" aria-label="Deschide meniul" aria-controls="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+        </button>
+    </header>
+    <div class="menu-overlay" aria-hidden="true"></div>
+    <section class="pag1">
+
+
+        <div class="categorii-container">
+            <a href="torturi-clasice.html" class="card-categorie">
+                <h2>Torturi Clasice</h2>
+                <p>Rețete consacrate și gustoase (Ciocolată, Diplomat, Pădurea Neagră), disponibile rapid, fără
+                    personalizare.</p>
+                <span class="btn-exploreaza">Vezi torturile →</span>
+            </a>
+
+            <a href="torturi-personalizate.html" class="card-categorie">
+                <h2>Torturi Personalizate</h2>
+                <p>Modele unice create după dorința ta pentru nuntă, botez, aniversări sau evenimente speciale.</p>
+                <span class="btn-exploreaza">Vezi galeria →</span>
+            </a>
+        </div>
+    </section>
+    <script>
+        // MENIU HAMBURGER
+        const butonHamburger = document.querySelector(".hamburger");
+        const meniu = document.querySelector("#menu");
+        const overlayMeniu = document.querySelector(".menu-overlay");
+
+        function inchideMeniul() {
+            meniu.classList.remove("open");
+            overlayMeniu.classList.remove("open");
+            butonHamburger.classList.remove("active");
+            butonHamburger.setAttribute("aria-expanded", "false");
+            butonHamburger.setAttribute("aria-label", "Deschide meniul");
+            document.body.classList.remove("menu-open");
+        }
+
+        function comutaMeniul() {
+            const esteDeschis = meniu.classList.toggle("open");
+
+            overlayMeniu.classList.toggle("open", esteDeschis);
+            butonHamburger.classList.toggle("active", esteDeschis);
+            butonHamburger.setAttribute("aria-expanded", String(esteDeschis));
+            butonHamburger.setAttribute(
+                "aria-label",
+                esteDeschis ? "Închide meniul" : "Deschide meniul"
+            );
+            document.body.classList.toggle("menu-open", esteDeschis);
+        }
+
+        butonHamburger.addEventListener("click", comutaMeniul);
+        overlayMeniu.addEventListener("click", inchideMeniul);
+
+        meniu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", inchideMeniul);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                inchideMeniul();
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                inchideMeniul();
+            }
+        });
+
+    </script>
+
+
+</body>
+
+</html>

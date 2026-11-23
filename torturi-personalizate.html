@@ -343,15 +343,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
+
             align-items: center;
             text-align: center;
             max-width: 650px;
             padding: 30px;
             border: none;
             border-radius: 10% 0% 10% 0%;
-            
+
             background: #fff;
-            
+
         }
 
         .ferPopup::backdrop {
@@ -359,7 +360,7 @@
         }
 
         /* Containerul care ține poza și textul pe 2 coloane (Flexbox) */
-        
+
 
         /* Stilul pentru imagine */
         .ferPopup .imag {
@@ -379,9 +380,9 @@
             background-color: #e9e6e6;
             box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            padding:  2px;
+            padding: 2px;
             font-size: 22px;
-            color: #49271f;
+            color: #8a7975;
         }
 
         .text p {
@@ -404,6 +405,87 @@
             font-weight: 600;
             margin-top: 25px;
         }
+
+        .anunt h2 {
+            color: #ffffff;
+           
+        }
+        .bordura{
+            background-color: #324d7e;
+            padding: 15px 15px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+
+            
+        }
+
+        .anunt {
+            position: fixed;
+            top: 78%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            align-items: center;
+            z-index: 9999;
+            text-align: center;
+            max-width: 650px;
+            height: 39%;
+            border: none;
+            border-radius: 10px;
+            background: #c7c7c7;
+        }
+
+        .anunt button {
+            padding: 10px 10px;
+            border: none;
+            border-radius: 7px;
+            background-color: #b3e0f7;
+            margin-top: 20px;
+            margin-left: 60%;
+
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        /* Fundalul întunecat care acoperă tot ecranul */
+        .overly {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Backdrop negru semi-transparent */
+            z-index: 9998;
+            /* Stă imediat sub anunt */
+            display: flex;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideInLeft2 {
+            0% {
+                transform: translate(-50%, calc(-50% + 300px));
+                /* Începe decalat cu 100px spre stânga */
+                opacity: 1;
+                /* Este invizibil la început */
+            }
+
+            100% {
+                transform: translateX(1);
+                /* Ajunge la poziția lui normală */
+                opacity: 1;
+                /* Devine complet vizibil */
+            }
+        }
+
+        .anunt {
+            animation: slideInLeft2 1.5s;
+        }
+        .anunt p{
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 
@@ -423,6 +505,18 @@
         </button>
     </header>
     <div class="menu-overlay" aria-hidden="true"></div>
+    <div class="overly" id="anunt">
+        <div class="anunt">
+            <div class="bordura">
+                <h2>Acest pentru livrari</h2>
+            </div>
+            <p>Livrările se fac doar pentru evenimente (nunți, botezuri, zile de naștere și petreceri). Pentru comenzi
+                obișnuite, ridicarea se face din locație.
+
+            </p>
+            <button onclick="document.getElementById('anunt').style.display='none'">Am înțeles</button>
+        </div>
+    </div>
 
     <main class="carusel-wrapper">
         <h2 class="titlu">TORTURI</h2>
